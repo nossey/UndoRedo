@@ -186,7 +186,7 @@ namespace UndoRedo
         }
 
         /// <summary>
-        /// Redo the last command
+        /// Redo the last action
         /// </summary>
         public static void Redo()
         {
@@ -204,6 +204,9 @@ namespace UndoRedo
             }
         }
 
+        /// <summary>
+        /// Start recording multiple actions
+        /// </summary>
         static public void BeginTransaction()
         {
             lock (Lock)
@@ -213,6 +216,9 @@ namespace UndoRedo
             }
         }
 
+        /// <summary>
+        /// End recording multiple actions
+        /// </summary>
         static public void EndTransaction()
         {
             lock(Lock)
