@@ -1,5 +1,5 @@
 # UndoRedo
-This project produces a simple undo/redo functions.
+This project produces a simple undo/redo functions for C#.
 
 ## Getting Started
 Just download "History.cs."<br>
