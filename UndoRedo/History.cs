@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static UndoiRedo.Utility;
 
-namespace UndoRedo.Model
+namespace UndoRedo
 {
-    public static class EditHitory
+    public static class History
     {
-        #region Declaration
+        #region Declarations
 
         public delegate void RecordableAction();
 
@@ -103,11 +102,11 @@ namespace UndoRedo.Model
         {
             get
             {
-                // doesn't occur
+                // doesn't execute normmaly
                 if (States.Count <= 0)
                     return null;
 
-                // doesn't occur
+                // doesn't execute normmaly
                 if (!IsInRange(0, States.Count - 1, CurrentStateIndex))
                     return null;
 
@@ -167,6 +166,9 @@ namespace UndoRedo.Model
             }
         }
 
+        /// <summary>
+        /// Undo the last action
+        /// </summary>
         public static void Undo()
         {
             lock (Lock)
@@ -183,6 +185,9 @@ namespace UndoRedo.Model
             }
         }
 
+        /// <summary>
+        /// Redo the last command
+        /// </summary>
         public static void Redo()
         {
             lock (Lock)
@@ -210,18 +215,21 @@ namespace UndoRedo.Model
 
         static public void EndTransaction()
         {
-            Transacting = false;
-            var newState = new State();
-            newState.PrevCommand = TransCommand;
-            AddNewState(newState);
-            TransCommand = null;
+            lock(Lock)
+            {
+                Transacting = false;
+                var newState = new State();
+                newState.PrevCommand = TransCommand;
+                AddNewState(newState);
+                TransCommand = null;
+            }
         }
 
         #endregion
 
         #region Private methods
 
-        static EditHitory()
+        static History()
         {
             States.Add(new State());
         }
@@ -259,6 +267,35 @@ namespace UndoRedo.Model
             newState.PrevState = CurrentState;
             States.Add(newState);
             CurrentStateIndex = States.IndexOf(newState);
+        }
+
+        /// <summary>
+        /// Index checker
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        static bool IsInRange(int min, int max, int value)
+        {
+            return min <= value && value <= max;
+        }
+
+        /// <summary>
+        /// To avoid access to an invalid state
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        static int Clamp(int min, int max, int value)
+        {
+            if (min > value)
+                return min;
+            if (max < value)
+                return max;
+
+            return value;
         }
 
         #endregion
