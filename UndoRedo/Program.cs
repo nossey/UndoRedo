@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-// If you're C# 5.0 or older, 
 using static UndoRedo.History;
 using static System.Console;
 
