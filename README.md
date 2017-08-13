@@ -6,18 +6,14 @@ Just download "History.cs."<br>
 If you're interested in a sample code, pull this repository.
 
 ### Prerequisites
-.NET Framework(C#) is needed.
+C# 6.0 or later is needed.
 
 ### Installing
 It's so easy.<br>
 Just add "History.cs" file to your own project and declare following statement.
 
 ```CSharp
-// C# 6.0 or later
 using static UndoRedo.History;
-
-// C# 5.0 or older
-using UndoRedo;
 ```
 
 ## How to use & examples
